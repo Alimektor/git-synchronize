@@ -13,7 +13,6 @@ Thumbs.db
 /dist/
 /build/
 /out/
-/bin/
 
 # Ignore log files and databases
 *.log

@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Determine script path
+SCRIPT_PATH="${BASH_SOURCE[0]}"
+while [[ -L "${SCRIPT_PATH}" ]]; do
+    SCRIPT_DIR="$(cd -P "$(dirname "${SCRIPT_PATH}")" >/dev/null 2>&1 && pwd)"
+    SCRIPT_PATH="$(readlink "${SCRIPT_PATH}")"
+    [[ ${SCRIPT_PATH} != /* ]] && SCRIPT_PATH="${SCRIPT_DIR}/${SCRIPT_PATH}"
+done
+SCRIPT_PATH="$(readlink -f "${SCRIPT_PATH}")"
+SCRIPT_DIR="$(cd -P "$(dirname -- "${SCRIPT_PATH}")" >/dev/null 2>&1 && pwd)"
+SCRIPT_BASENAME=${SCRIPT_PATH##*/}
+
+print_usage() {
+    cat <<__USAGE__
+Usage: ${SCRIPT_BASENAME} [-v|--version | -h]
+
+    Automatically synchronize local Git repository with remote Git repository.
+
+Example:
+
+    ${SCRIPT_BASENAME}
+
+Options:
+    --version           Print utility version.
+    -h                  Print this help message.
+
+__USAGE__
+}
+
+print_version() {
+    echo "${SCRIPT_BASENAME}, 0.1.0"
+}
+
+main() {
+    echo "Not implemented yet."
+    exit 1
+}
+
+while [[ $# -ne 0 ]]; do
+    case "${1}" in
+    --)
+        shift
+        ;;
+    -v | --version)
+        print_version
+        exit 0
+        ;;
+    -h)
+        print_usage
+        exit 0
+        ;;
+    *)
+        shift
+        ;;
+    esac
+done
+
+main

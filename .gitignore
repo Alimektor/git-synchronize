@@ -1,0 +1,61 @@
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore editor-specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Ignore build and dependency directories
+/node_modules/
+/dist/
+/build/
+/out/
+/bin/
+
+# Ignore log files and databases
+*.log
+*.sqlite
+*.db
+
+# Ignore environment files
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Ignore compiled files
+*.class
+*.exe
+*.dll
+*.so
+*.pyc
+__pycache__/
+
+# Ignore temporary files
+*.tmp
+*.temp
+
+# Ignore user-specific files
+*.user
+*.suo
+
+# Ignore package manager files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Ignore coverage reports
+/coverage/
+*.lcov
+
+# Ignore generated documentation
+/docs/_build/
+/docs/_site/
+
+# Ignore test artifacts
+/test-results/
+/test-reports/

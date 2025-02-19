@@ -115,7 +115,7 @@ run_commit_stage() {
 run_push_stage() {
     local branch="${1:-${DEFAULT_BRANCH}}"
     print_info "Pushing changes"
-    print_run "git push --all origin ${branch}"
+    print_run "git push origin ${branch}"
     print_okay "Changes pushed successfully"
 }
 

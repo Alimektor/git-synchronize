@@ -32,6 +32,15 @@ Options:
 __USAGE__
 }
 
+handle_error() {
+    exit_code=$?
+    echo "Error: Command exited with status ${exit_code}"
+    # shellcheck disable=SC2248
+    exit ${exit_code}
+}
+
+trap handle_error ERR
+
 # colors
 export reset_color='\e[0m'
 export info_color='\e[1;34m'

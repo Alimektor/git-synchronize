@@ -50,5 +50,10 @@ check: ## Check git-synchronize
 	pre-commit run --all-files
 	$(info "Checked git-synchronize successfully...")
 
+docker: ## Build docker image
+	$(info "Building docker image...")
+	docker build -t git-synchronize .
+	$(info "Built docker image...")
+
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[1;32m%-15s \033[1;33m%s\033[0m\n", $$1, $$2}'

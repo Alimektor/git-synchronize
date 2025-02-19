@@ -44,5 +44,11 @@ clean: ## Remove generated files
 	rm -rf man
 	$(info "Removed generated files")
 
+check: ## Check git-synchronize
+	$(info "Checking git-synchronize...")
+	pre-commit install
+	pre-commit run --all-files
+	$(info "Checked git-synchronize successfully...")
+
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[1;32m%-15s \033[1;33m%s\033[0m\n", $$1, $$2}'

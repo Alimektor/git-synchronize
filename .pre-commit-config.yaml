@@ -1,0 +1,18 @@
+repos:
+  - repo: local
+    hooks:
+      - id: shfmt_diff
+        name: shfmt_diff
+        entry: shfmt -d
+        language: system
+        types: [shell]
+      - id: shfmt_write
+        name: shfmt_write
+        entry: shfmt -w
+        language: system
+        types: [shell]
+      - id: shellcheck
+        name: shellcheck
+        entry: shellcheck
+        language: system
+        types: [shell]

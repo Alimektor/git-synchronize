@@ -14,28 +14,109 @@ SCRIPT_BASENAME=${SCRIPT_PATH##*/}
 
 print_usage() {
     cat <<__USAGE__
-Usage: ${SCRIPT_BASENAME} [-v|--version | -h]
+Usage: ${SCRIPT_BASENAME} [-v|--version | -h | -m|--message | -b|--branch]
 
     Automatically synchronize local Git repository with remote Git repository.
 
 Example:
 
     ${SCRIPT_BASENAME}
+    ${SCRIPT_BASENAME} -m "Update README" -b "main"
 
 Options:
-    --version           Print utility version.
-    -h                  Print this help message.
+    -v | --version           Print utility version.
+    -h | --help              Print this help message.
+    -m | --message           Commit message.
+    -b | --branch            Branch name.
 
 __USAGE__
+}
+
+# colors
+export reset_color='\e[0m'
+export info_color='\e[1;34m'
+export warning_color='\e[1;33m'
+export error_color='\e[1;31m'
+export success_color='\e[1;32m'
+
+print_info() {
+    local _message="${1}"
+    echo -e "${info_color:-}[INFO] ${_message:-Info}${reset_color:-}"
+}
+
+print_fail() {
+    local _message="$1"
+    echo -e "${error_color:-}[FAIL] ${_message:-Info}${reset_color:-}" >&2
+    exit 1
+}
+
+print_okay() {
+    local _message="${1}"
+    echo -e "${success_color:-}[OKAY] ${_message:-OK}${reset_color:-}"
+}
+
+print_warn() {
+    local _message="${1}"
+    echo -e "${warning_color:-}[WARN] ${_message:-Warning}${reset_color:-}"
+}
+
+print_run() {
+    local _command="${1}"
+    echo -e "${info_color:-}[RUN] ${success_color:-}$ ${_command}${reset_color:-}"
+    eval "timeout 600 ${_command}"
 }
 
 print_version() {
     echo "${SCRIPT_BASENAME}, 0.1.0"
 }
 
+check_in_git_repo() {
+    if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+        print_okay "In git repository"
+    else
+        print_fail "Not a git repository"
+    fi
+}
+
+DEFAULT_COMMIT_MESSAGE="Automatic update"
+DEFAULT_BRANCH="main"
+
+run_stash_stage() {
+    print_info "Staging changes"
+    print_run "git fetch --all"
+    print_run "git stash"
+    print_run "git merge @{u}"
+    print_run "git stash pop"
+    print_okay "Changes stashed successfully"
+}
+
+run_commit_stage() {
+    local message="${1:-${DEFAULT_COMMIT_MESSAGE}}"
+    print_info "Committing changes"
+    print_run "git add -A"
+    if [[ -z "$(git status --porcelain || true)" ]]; then
+        print_run "git commit -m \"${message}\""
+    else
+        print_warn "No changes to commit"
+    fi
+    print_run "git stash clear"
+    print_okay "Changes committed successfully"
+}
+
+run_push_stage() {
+    local branch="${1:-${DEFAULT_BRANCH}}"
+    print_info "Pushing changes"
+    print_run "git push --all origin ${branch}"
+    print_okay "Changes pushed successfully"
+}
+
 main() {
-    echo "Not implemented yet."
-    exit 1
+    local message="${1:-${DEFAULT_COMMIT_MESSAGE}}"
+    local branch="${2:-${DEFAULT_BRANCH}}"
+    check_in_git_repo
+    run_stash_stage
+    run_commit_stage "${message}"
+    run_push_stage "${branch}"
 }
 
 while [[ $# -ne 0 ]]; do
@@ -47,9 +128,17 @@ while [[ $# -ne 0 ]]; do
         print_version
         exit 0
         ;;
-    -h)
+    -h | --help)
         print_usage
         exit 0
+        ;;
+    -m | --message)
+        shift
+        message="${1}"
+        ;;
+    -b | --branch)
+        shift
+        branch="${1}"
         ;;
     *)
         shift
@@ -57,4 +146,4 @@ while [[ $# -ne 0 ]]; do
     esac
 done
 
-main
+main "${message:-${DEFAULT_COMMIT_MESSAGE}}" "${branch:-${DEFAULT_BRANCH}}"

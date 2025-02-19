@@ -104,9 +104,9 @@ run_commit_stage() {
     print_info "Committing changes"
     print_run "git add -A"
     if [[ -z "$(git status --porcelain || true)" ]]; then
-        print_run "git commit -m \"${message}\""
-    else
         print_warn "No changes to commit"
+    else
+        print_run "git commit -m \"${message}\""
     fi
     print_run "git stash clear"
     print_okay "Changes committed successfully"

@@ -15,8 +15,8 @@ all: install clean
 
 ## Set variables to install / uninstall to ~/.local
 ifeq ($(LOCAL), true)
-BINDIR=~/.local/bin
-MANDIR=~/.local/share/man
+BINDIR=$(HOME)/.local/bin
+MANDIR=$(HOME)/.local/share/man
 endif
 
 ifeq (, $(shell which pandoc))

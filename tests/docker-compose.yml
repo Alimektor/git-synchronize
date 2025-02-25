@@ -1,0 +1,31 @@
+services:
+  git-server:
+    image: git-synchronize-server
+    container_name: git-server
+    ports:
+      - "2222:22"
+    networks:
+      - git-network
+    restart: unless-stopped
+
+  git-client-1:
+    image: git-synchronize-client
+    container_name: git-client-1
+    depends_on:
+      - git-server
+    networks:
+      - git-network
+
+  git-client-2:
+    image: git-synchronize-client
+    container_name: git-client-2
+    depends_on:
+      - git-client-1
+    networks:
+      - git-network
+
+volumes:
+  git-server-repo:
+
+networks:
+  git-network:

@@ -6,12 +6,12 @@ LOCAL=false
 EXEC_FILES=git-synchronize
 
 # Man pages
-README_1_FILE=README.md
+DOC_1_FILE=docs/docs.md
 MAN_1_FILE=git-synchronize.1
 
 .PHONY: all install uninstall test clean local check docker help
 
-all: install clean
+all: install
 
 ## Set variables to install / uninstall to ~/.local
 ifeq ($(LOCAL), true)
@@ -19,17 +19,22 @@ BINDIR=$(HOME)/.local/bin
 MANDIR=$(HOME)/.local/share/man
 endif
 
-install: ## Install git-synchronize (Set LOCAL=true to install to ~/.local)
+install: docs ## Install git-synchronize (Set LOCAL=true to install to ~/.local)
+	@echo "Installing $(EXEC_FILES) to $(BINDIR)"
+	mkdir -p $(BINDIR)
+	install -m 755 bin/$(EXEC_FILES) $(BINDIR)
+	@echo "Installed $(EXEC_FILES) to $(BINDIR)"
+
+docs: clean ## Generate documentation
+	@echo "Generating documentation"
 	@echo "Check pandoc is installed"
 	command -v pandoc || (echo "No pandoc in $(PATH), consider installing pandoc" && exit 1)
 	@echo "Installing $(EXEC_FILES) to $(BINDIR)"
 	mkdir -p man
-	pandoc -s -t man $(README_1_FILE) -o man/$(MAN_1_FILE)
-	mkdir -p $(BINDIR)
+	pandoc -s -t man $(DOC_1_FILE) -o man/$(MAN_1_FILE)
 	mkdir -p $(MANDIR)/man1
-	install -m 755 bin/$(EXEC_FILES) $(BINDIR)
 	install -m 644 man/$(MAN_1_FILE) $(MANDIR)/man1/$(MAN_1_FILE)
-	@echo "Installed $(EXEC_FILES) to $(BINDIR) and $(MAN_1_FILE) to $(MANDIR)/man1"
+	@echo "Generated documentation in $(MANDIR)/man1/$(MAN_1_FILE)"
 
 uninstall: ## Uninstall git-synchronize (Set LOCAL=true to install to ~/.local)
 	@echo "Uninstalling $(EXEC_FILES) from $(BINDIR)"

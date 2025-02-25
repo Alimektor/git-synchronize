@@ -6,10 +6,23 @@
 
 ## Installation ##
 
+Clone the repository:
+
 ```bash
 git clone https://github.com/Alimektor/git-synchronize.git
 cd git-synchronize
+```
+
+Install for system usage:
+
+```bash
 make install
+```
+
+Install for user usage:
+
+```bash
+make install LOCAL=true
 ```
 
 ## Usage ##

@@ -77,7 +77,7 @@ print_run() {
 }
 
 print_version() {
-    echo "${SCRIPT_BASENAME}, 0.1.0"
+    echo "${SCRIPT_BASENAME}, 1.0.0"
 }
 
 get_config_value() {
@@ -120,7 +120,9 @@ run_stash_stage() {
 run_commit_stage() {
     local message="${1:-${DEFAULT_COMMIT_MESSAGE}}"
     print_info "Committing changes"
-    print_run "git add -A"
+    print_run "git add --renormalize ."
+    print_run "git reset"
+    print_run "git add --all"
     if [[ -z "$(git status --porcelain || true)" ]]; then
         print_warn "No changes to commit"
         exit 0

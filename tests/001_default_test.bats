@@ -1,5 +1,5 @@
 #!/usr/bin/env -S bats
-# Default for git-synchronize
+# Default for git-synchronize.
 
 bats_require_minimum_version 1.5.0
 

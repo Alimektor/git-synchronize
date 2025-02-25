@@ -17,6 +17,8 @@ Usage: ${SCRIPT_BASENAME} [-v|--version | -h | -m|--message | -b|--branch]
 
     Automatically synchronize local Git repository with remote Git repository.
 
+    Use can use <git-repo>/.git-synchronize to configure the script in the git repository or global in ~/.git-synchronize.
+
 Example:
 
     ${SCRIPT_BASENAME}
@@ -78,6 +80,23 @@ print_version() {
     echo "${SCRIPT_BASENAME}, 0.1.0"
 }
 
+get_config_value() {
+    local key="${1}"
+    local global_config_file="${2:-${HOME}/.git-synchronize}"
+    git_repository_path="$(git rev-parse --show-toplevel)"
+    local_config_file="${git_repository_path}/.git-synchronize"
+    if [[ -f "${global_config_file}" ]]; then
+        result=$(grep "${key}" "${global_config_file}")
+        result=$(echo "${result}" | cut -d= -f2)
+    fi
+    if [[ -f "${local_config_file}" ]]; then
+        result=$(grep "${key}" "${local_config_file}")
+        result=$(echo "${result}" | cut -d= -f2)
+        result=$(echo "${result}" | xargs echo)
+    fi
+    echo "${result}"
+}
+
 check_in_git_repo() {
     if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
         print_okay "In git repository"
@@ -132,6 +151,9 @@ main() {
     run_commit_stage "${message}"
     run_push_stage "${branch}"
 }
+
+message="$(get_config_value "message")"
+branch="$(get_config_value "branch")"
 
 while [[ $# -ne 0 ]]; do
     case "${1}" in

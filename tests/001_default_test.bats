@@ -14,12 +14,12 @@ load "local.bash"
 setup_file() {
     setup_environment
     report "Default tests for git-synchronize"
-    docker-compose up -d
+    docker compose up -d
     setup_git_repository
 }
 
 teardown_file() {
-    docker-compose down
+    docker compose down
 }
 
 @test "git synchronize -h" {

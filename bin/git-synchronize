@@ -77,7 +77,7 @@ print_run() {
 }
 
 print_version() {
-    echo "${SCRIPT_BASENAME}, 0.1.0"
+    echo "${SCRIPT_BASENAME}, 1.0.0"
 }
 
 get_config_value() {

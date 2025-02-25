@@ -25,8 +25,8 @@ Example:
 Options:
     -v | --version           Print utility version.
     -h | --help              Print this help message.
-    -m | --message           Commit message.
-    -b | --branch            Branch name.
+    -m | --message           Commit message. Default: "Automatic update".
+    -b | --branch            Branch name. Default: "main".
 
 __USAGE__
 }
@@ -114,8 +114,13 @@ run_commit_stage() {
 
 run_push_stage() {
     local branch="${1:-${DEFAULT_BRANCH}}"
+    print_info "Checkout branch to ${branch}"
+    print_run "git checkout -b ${branch}"
     print_info "Pushing changes"
     print_run "git push origin ${branch}"
+    if [[ -n "$(git status --porcelain || true)" ]]; then
+        print_fail "Changes not pushed"
+    fi
     print_okay "Changes pushed successfully"
 }
 

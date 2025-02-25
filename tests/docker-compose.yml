@@ -2,8 +2,6 @@ services:
   git-server:
     image: git-synchronize-server
     container_name: git-server
-    ports:
-      - "2222:22"
     networks:
       - git-network
     restart: unless-stopped
@@ -23,9 +21,6 @@ services:
       - git-client-1
     networks:
       - git-network
-
-volumes:
-  git-server-repo:
 
 networks:
   git-network:

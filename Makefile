@@ -19,11 +19,9 @@ BINDIR=$(HOME)/.local/bin
 MANDIR=$(HOME)/.local/share/man
 endif
 
-ifeq (, $(shell which pandoc))
-$(error "No pandoc in $(PATH), consider installing pandoc")
-endif
-
 install: ## Install git-synchronize (Set LOCAL=true to install to ~/.local)
+	@echo "Check pandoc is installed"
+	command -v pandoc || (echo "No pandoc in $(PATH), consider installing pandoc" && exit 1)
 	@echo "Installing $(EXEC_FILES) to $(BINDIR)"
 	mkdir -p man
 	pandoc -s -t man $(README_1_FILE) -o man/$(MAN_1_FILE)

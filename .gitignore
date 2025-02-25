@@ -58,3 +58,6 @@ pnpm-lock.yaml
 # Ignore test artifacts
 /test-results/
 /test-reports/
+
+# Ignore man generated
+man/

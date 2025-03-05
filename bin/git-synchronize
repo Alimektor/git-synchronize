@@ -92,7 +92,6 @@ get_config_value() {
     if [[ -f "${local_config_file}" ]]; then
         result=$(grep "${key}" "${local_config_file}")
         result=$(echo "${result}" | cut -d= -f2)
-        result=$(echo "${result}" | xargs echo)
     fi
     echo "${result}"
 }

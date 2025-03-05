@@ -111,40 +111,44 @@ DEFAULT_COMMIT_MESSAGE="Automatic update"
 DEFAULT_BRANCH="main"
 
 run_stash_stage() {
-    print_info "Staging changes"
+    print_info "Staging changes..."
     print_run "git fetch --all"
     print_run "git stash"
     print_run "git merge @{u}"
     print_run "git stash pop"
-    print_okay "Changes stashed successfully"
+    print_okay "Changes stashed successfully!"
 }
 
 run_commit_stage() {
     local message="${1:-${DEFAULT_COMMIT_MESSAGE}}"
-    print_info "Committing changes"
+    print_info "Renormalizing files..."
     print_run "git add --renormalize ."
+    print_info "Resetting git index..."
     print_run "git reset"
+    print_info "Committing changes..."
     print_run "git add --all"
     if [[ -z "$(git status --porcelain || true)" ]]; then
-        print_warn "No changes to commit"
+        print_warn "No changes to commit!"
         exit 0
     else
         print_run "git commit -m \"${message}\""
     fi
+    print_info "Clearing stash..."
     print_run "git stash clear"
-    print_okay "Changes committed successfully"
+    print_okay "Changes committed successfully!"
 }
 
 run_push_stage() {
     local branch="${1:-${DEFAULT_BRANCH}}"
-    print_info "Checkout branch to ${branch}"
+    print_info "Checkout branch to ${branch}."
     print_run "git checkout -b ${branch}"
-    print_info "Pushing changes"
+    print_info "Pushing changes..."
     print_run "git push origin ${branch}"
     if [[ -n "$(git status --porcelain || true)" ]]; then
-        print_fail "Changes not pushed"
+        print_fail "Changes not pushed: $(git status --porcelain || true)"
     fi
-    print_okay "Changes pushed successfully"
+    print_okay "Changes pushed successfully!"
+    print_okay "All done!"
 }
 
 main() {

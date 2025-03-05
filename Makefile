@@ -19,7 +19,7 @@ BINDIR=$(HOME)/.local/bin
 MANDIR=$(HOME)/.local/share/man
 endif
 
-install: docs ## Install git-synchronize (Set LOCAL=true to install to ~/.local)
+install: docs clean ## Install git-synchronize (Set LOCAL=true to install to ~/.local)
 	@echo "Installing $(EXEC_FILES) to $(BINDIR)"
 	mkdir -p $(BINDIR)
 	install -m 755 bin/$(EXEC_FILES) $(BINDIR)
@@ -47,28 +47,28 @@ clean: ## Remove generated files
 	rm -rf man
 	@echo "Removed generated files"
 
-check: ## Check git-synchronize
+check: ## Check git-synchronize using pre-commit
 	@echo "Checking git-synchronize..."
 	pre-commit install
 	pre-commit run --all-files
 	@echo "Checked git-synchronize successfully..."
 
-docker: ## Build docker image
+docker: ## Build Docker image
 	@echo "Building docker image..."
 	docker build -t git-synchronize .
 	@echo "Built docker image..."
 
-docker-client: ## Build docker image for client
+docker-client: ## Build Docker image for client
 	@echo "Building docker image for client..."
 	cd tests/client && docker build -t git-synchronize-client .
 	@echo "Built docker image for client..."
 
-docker-server: ## Build docker image for server
+docker-server: ## Build Docker image for server
 	@echo "Building docker image for server..."
 	cd tests/server && docker build -t git-synchronize-server .
 	@echo "Built docker image for server..."
 
-test: docker docker-client docker-server ## Run tests
+test: docker docker-client docker-server ## Run tests in Docker
 	@echo "Running tests..."
 	cd tests && bats -r .
 	@echo "Tests passed successfully..."

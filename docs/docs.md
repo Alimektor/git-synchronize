@@ -41,7 +41,8 @@ OPTIONS
 FILES
 =====
 
-*~/.git-synchronize* <OR> **GIT_REPO_DIRECTORY/.git-synchronize**
+*~/.git-synchronize*
+*GIT_REPO_DIRECTORY/.git-synchronize*
 
 :   Configuration for git-synchronize. Example file:
 

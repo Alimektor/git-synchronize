@@ -17,7 +17,10 @@ Usage: ${SCRIPT_BASENAME} [-v|--version | -h | -m|--message | -b|--branch]
 
     Automatically synchronize local Git repository with remote Git repository.
 
-    Use can use <git-repo>/.git-synchronize to configure the script in the git repository or global in ~/.git-synchronize.
+    Use can use <git-repo>/.git-synchronize to configure the script in the git repository or global in ~/.git-synchronize:
+
+        $ echo "message:Update README" > ~/.git-synchronize
+        $ echo "branch:main" >> ~/.git-synchronize
 
 Example:
 
@@ -77,7 +80,7 @@ print_run() {
 }
 
 print_version() {
-    echo "${SCRIPT_BASENAME}, 1.0.0"
+    echo "${SCRIPT_BASENAME}, 1.0.1"
 }
 
 get_config_value() {
@@ -87,11 +90,11 @@ get_config_value() {
     local_config_file="${git_repository_path}/.git-synchronize"
     if [[ -f "${global_config_file}" ]]; then
         result=$(grep "${key}" "${global_config_file}")
-        result=$(echo "${result}" | cut -d= -f2)
+        result=$(echo "${result}" | awk -F= '{print $2}')
     fi
     if [[ -f "${local_config_file}" ]]; then
         result=$(grep "${key}" "${local_config_file}")
-        result=$(echo "${result}" | cut -d= -f2)
+        result=$(echo "${result}" | awk -F= '{print $2}')
     fi
     echo "${result}"
 }

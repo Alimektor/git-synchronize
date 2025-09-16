@@ -57,15 +57,19 @@ teardown_file() {
     run_on_client_2 "cd /test-repo && cat README.md"
     assert_success
     assert_output -p "Hello world"
+    refute_output -p "fatal: a branch named"
 }
 
 @test "git synchronize: Hello world 2" {
     run_on_client_1 "cd /test-repo && echo 'Hello world 2' > README.md"
     run_on_client_1 "cd /test-repo && git synchronize"
+    refute_output -p "fatal: a branch named"
     run_on_client_2 "cd /test-repo && git synchronize"
+    refute_output -p "fatal: a branch named"
     run_on_client_2 "cd /test-repo && cat README.md"
     assert_success
     assert_output -p "Hello world 2"
+    refute_output -p "fatal: a branch named"
 }
 
 @test "git synchronize: Changes on others clients" {
@@ -73,7 +77,9 @@ teardown_file() {
     run_on_client_1 "cd /test-repo && git synchronize"
     run_on_client_2 "cd /test-repo && echo 'Second client change' > README.md"
     run_on_client_2 "cd /test-repo && git synchronize"
+    refute_output -p "fatal: a branch named"
     run_on_client_1 "cd /test-repo && git synchronize"
+    refute_output -p "fatal: a branch named"
     run_on_client_1 "cd /test-repo && cat README.md"
     assert_success
     assert_line --index 0 "<<<<<<< Updated upstream"
@@ -81,34 +87,41 @@ teardown_file() {
     assert_line --index 2 "======="
     assert_line --index 3 "Second client change"
     assert_line --index 4 ">>>>>>> Stashed changes"
+    refute_output -p "fatal: a branch named"
 }
 
 @test "git synchronize -m 'Custom message'" {
     run_on_client_1 "cd /test-repo && echo 'Custom' > README.md"
     run_on_client_1 "cd /test-repo && git synchronize -m 'Custom message'"
     run_on_client_2 "cd /test-repo && git synchronize"
+    refute_output -p "fatal: a branch named"
     run_on_client_2 "cd /test-repo && cat README.md"
     assert_success
     assert_output -p "Custom"
     run_on_client_2 "cd /test-repo && git log -1 --pretty=%B"
     assert_success
     assert_output -p "Custom message"
+    refute_output -p "fatal: a branch named"
 }
 
 @test "git synchronize -b 'custom-branch'" {
     run_on_client_1 "cd /test-repo && echo 'Another branch' > README.md"
     run_on_client_1 "cd /test-repo && git synchronize -b 'custom-branch'"
+    refute_output -p "fatal: a branch named"
     run_on_client_2 "cd /test-repo && git synchronize"
+    refute_output -p "fatal: a branch named"
     run_on_client_2 "cd /test-repo && git checkout custom-branch"
     run_on_client_2 "cd /test-repo && cat README.md"
     assert_success
     assert_output -p "Another branch"
+    refute_output -p "fatal: a branch named"
 }
 
 @test "git synchronize -b 'another-custom-branch' -m 'Custom message from another branch'" {
     run_on_client_1 "cd /test-repo && echo 'Another branch with custom message' > README.md"
     run_on_client_1 "cd /test-repo && git synchronize -b 'another-custom-branch' -m 'Custom message from another branch'"
     run_on_client_2 "cd /test-repo && git synchronize"
+    refute_output -p "fatal: a branch named"
     run_on_client_2 "cd /test-repo && git checkout another-custom-branch"
     run_on_client_2 "cd /test-repo && cat README.md"
     assert_success
@@ -116,4 +129,5 @@ teardown_file() {
     run_on_client_2 "cd /test-repo && git log -1 --pretty=%B"
     assert_success
     assert_output -p "Custom message from another branch"
+    refute_output -p "fatal: a branch named"
 }

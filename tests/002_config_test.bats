@@ -26,7 +26,9 @@ teardown_file() {
     run_on_client_1 'touch ~/.git-synchronize'
     run_on_client_1 "cd /test-repo && echo 'Empty config file' > config-test.md"
     run_on_client_1 'cd /test-repo && git synchronize'
+    refute_output -p "fatal: a branch named"
     run_on_client_2 'cd /test-repo && git synchronize'
+    refute_output -p "fatal: a branch named"
     run_on_client_2 'cd /test-repo && cat config-test.md'
     assert_success
     assert_output -p "Empty config file"
@@ -36,7 +38,9 @@ teardown_file() {
     run_on_client_1 'echo -e "message=Message from configuration file\nbranch=configuration-test" > ~/.git-synchronize'
     run_on_client_1 "cd /test-repo && echo 'Config file' > config-test.md"
     run_on_client_1 'cd /test-repo && git synchronize'
+    refute_output -p "fatal: a branch named"
     run_on_client_2 'cd /test-repo && git synchronize'
+    refute_output -p "fatal: a branch named"
     run_on_client_2 'cd /test-repo && git checkout configuration-test'
     run_on_client_2 'cd /test-repo && cat config-test.md'
     assert_success
@@ -50,10 +54,12 @@ teardown_file() {
     run_on_client_1 'cd /test-repo && echo -e "message=Message from Git configuration file\nbranch=configuration-git-test" > .git-synchronize'
     run_on_client_1 "cd /test-repo && echo 'Config file from repository' > config-test.md"
     run_on_client_1 'cd /test-repo && git synchronize'
+    refute_output -p "fatal: a branch named"
     run_on_client_1 'cd /test-repo && git branch'
     assert_success
     assert_output -p "* configuration-git-test"
     run_on_client_2 'cd /test-repo && git synchronize'
+    refute_output -p "fatal: a branch named"
     run_on_client_2 'cd /test-repo && git checkout configuration-git-test'
     run_on_client_2 'cd /test-repo && cat config-test.md'
     assert_success

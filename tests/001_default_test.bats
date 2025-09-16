@@ -46,8 +46,8 @@ teardown_file() {
 @test "fatal: not a git repository (#2)" {
     run_on_client_1 "git synchronize -v"
     assert_success
-    refute_output -e "fatal: not a git repository"
-    refute_output -e "GIT_DISCOVERY_ACROSS_FILESYSTEM"
+    refute_output -p "fatal: not a git repository"
+    refute_output -p "GIT_DISCOVERY_ACROSS_FILESYSTEM"
 }
 
 @test "git synchronize: Hello world" {

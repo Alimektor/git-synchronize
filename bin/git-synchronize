@@ -80,7 +80,7 @@ print_run() {
 }
 
 print_version() {
-    echo "${SCRIPT_BASENAME}, 1.0.1"
+    echo "${SCRIPT_BASENAME}, 1.0.2"
 }
 
 get_config_value() {
@@ -160,8 +160,12 @@ main() {
     run_push_stage "${branch}"
 }
 
-message="$(get_config_value "message")"
-branch="$(get_config_value "branch")"
+# if we're in a Git repository
+# try to get the config values
+if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    message="$(get_config_value "message")"
+    branch="$(get_config_value "branch")"
+fi
 
 while [[ $# -ne 0 ]]; do
     case "${1}" in

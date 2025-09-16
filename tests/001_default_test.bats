@@ -43,6 +43,13 @@ teardown_file() {
     assert_output -e "git-synchronize, [0-9]+\.[0-9]+\.[0-9]+"
 }
 
+@test "fatal: not a git repository (#2)" {
+    run_on_client_1 "git synchronize -v"
+    assert_success
+    refute_output -e "fatal: not a git repository"
+    refute_output -e "GIT_DISCOVERY_ACROSS_FILESYSTEM"
+}
+
 @test "git synchronize: Hello world" {
     run_on_client_1 "cd /test-repo && echo 'Hello world' > README.md"
     run_on_client_1 "cd /test-repo && git synchronize"

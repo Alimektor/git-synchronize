@@ -30,7 +30,7 @@ teardown_file() {
     assert_output -p "Options:"
     assert_output -p "Example:"
     assert_output -p "git-synchronize"
-    assert_output -p 'git-synchronize -m "Update README" -b "main"'
+    assert_output -p 'git-synchronize -m "feat: Update README" -b "main"'
     assert_output -p "-v | --version"
     assert_output -p "-h | --help"
     assert_output -p "-m | --message"

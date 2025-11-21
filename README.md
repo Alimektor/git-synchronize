@@ -1,42 +1,60 @@
-# Git Synchronize #
+# 🔄 Git Synchronize 🔄 #
 
 ![ci](https://github.com/Alimektor/git-synchronize/actions/workflows/ci.yml/badge.svg)
 
-`git-synchronize` is a Git command that helps you synchronize your local git repository with a remote repository with automatic commit message and push.
+> Your Ultimate Git Sync Companion
 
-## Installation ##
+📄🚀 `git-synchronize` is a powerful Git command that helps you effortlessly synchronize your local Git repository with a remote repository, complete with automatic commit message and seamless pushes.
 
-Clone the repository:
+## 🛠 Installation ##
+
+### Option 1: [curl](https://curl.se/) ###
+
+Install using `curl` for user usage without man page support:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Alimektor/git-synchronize/main/install.sh | bash
+```
+
+### Option 2: [Make](https://www.gnu.org/software/make) ###
+
+📥 Clone the repository:
 
 ```bash
 git clone https://github.com/Alimektor/git-synchronize.git
 cd git-synchronize
 ```
 
-Install for system usage:
+#### System-Wide Installation ####
 
 ```bash
 make install
 ```
 
-Install for user usage:
+#### Install for user usage ####
 
 ```bash
 make install LOCAL=true
 ```
 
-## Usage ##
+## 🚀 Usage ##
 
-Go to your local git repository and run the following command:
+Navigate to your local Git repository and run the following command:
 
 ```bash
 git synchronize
 ```
 
-Enjoy!
+🎉 Enjoy the magic!
 
-For more options and examples, see [the documentation](/docs/docs.md)
+## 📚 Documentation ##
 
-## License ##
+For more options and examples, see [📘 the documentation](/docs/docs.md)
 
-For details, see [LICENSE](/LICENSE.md)
+## 🤝 Contributing ##
+
+See [CONTRIBUTING](/CONTRIBUTING.md).
+
+## 📜 License ##
+
+For details, see [LICENSE](/LICENSE.md).

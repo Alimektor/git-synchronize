@@ -11,7 +11,7 @@ main() {
     mkdir -p "${MAN_DIR}/man1"
 
     echo "Installing git-synchronize script..."
-    curl -fsSL https://raw.githubusercontent.com/Alimektor/git-synchronize/main/bin/install.sh -o ~/.local/bin/git-synchronize
+    curl -fsSL https://raw.githubusercontent.com/Alimektor/git-synchronize/main/bin/git-synchronize -o ~/.local/bin/git-synchronize
     chmod +x ~/.local/bin/git-synchronize
 
     echo "Done!"

@@ -70,7 +70,7 @@ docker-server: ## Build Docker image for server
 
 test: docker docker-client docker-server ## Run tests in Docker
 	@echo "Running tests..."
-	cd tests && bats -r .
+	cd tests && bats --verbose-run -r .
 	@echo "Tests passed successfully..."
 
 help: ## Show this help

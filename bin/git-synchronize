@@ -19,13 +19,15 @@ Usage: ${SCRIPT_BASENAME} [-v|--version | -h | -m|--message | -b|--branch]
 
     Use can use <git-repo>/.git-synchronize to configure the script in the git repository or global in ~/.git-synchronize:
 
-        $ echo "message:Update README" > ~/.git-synchronize
+        $ echo "message:feat: Cool updates" > ~/.git-synchronize
         $ echo "branch:main" >> ~/.git-synchronize
+
+    Please, use Conventional Commits: https://www.conventionalcommits.org.
 
 Example:
 
     ${SCRIPT_BASENAME}
-    ${SCRIPT_BASENAME} -m "Update README" -b "main"
+    ${SCRIPT_BASENAME} -m "feat: Update README" -b "main"
 
 Options:
     -v | --version           Print utility version.
@@ -80,7 +82,7 @@ print_run() {
 }
 
 print_version() {
-    echo "${SCRIPT_BASENAME}, 1.0.3"
+    echo "${SCRIPT_BASENAME}, 1.0.4"
 }
 
 get_config_value() {

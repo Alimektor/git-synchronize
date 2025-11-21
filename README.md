@@ -25,13 +25,13 @@ git clone https://github.com/Alimektor/git-synchronize.git
 cd git-synchronize
 ```
 
-#### System-Wide Installation ####
+#### 💻 System-Wide Installation ####
 
 ```bash
 make install
 ```
 
-#### Install for user usage ####
+#### 👥 User-Specific Installation ####
 
 ```bash
 make install LOCAL=true

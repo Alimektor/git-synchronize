@@ -17,3 +17,5 @@ main() {
     echo "Done!"
     echo "You can check your installation by running: git-synchronize --version"
 }
+
+main

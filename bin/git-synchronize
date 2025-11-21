@@ -127,8 +127,9 @@ run_commit_stage() {
     print_run "git reset"
     print_info "Committing changes..."
     print_run "git add --all"
-    if [[ -z "$(git status --porcelain || true)" ]]; then
-        print_warn "No changes to commit!"
+    changes=$(git status --porcelain || true)
+    if [[ -z "${changes}" ]]; then
+        print_okay "No changes to commit!"
         exit 0
     else
         print_run "git commit -m \"${message}\""
@@ -148,8 +149,9 @@ run_push_stage() {
     fi
     print_info "Pushing changes..."
     print_run "git push origin ${branch}"
-    if [[ -n "$(git status --porcelain || true)" ]]; then
-        print_fail "Changes not pushed: $(git status --porcelain || true)"
+    changes=$(git status --porcelain || true)
+    if [[ -n "${changes}" ]]; then
+        print_fail "Changes not pushed:\n${changes}"
     fi
     print_okay "Changes pushed successfully!"
     print_okay "All done!"

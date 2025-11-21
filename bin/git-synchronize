@@ -107,7 +107,7 @@ check_in_git_repo() {
     fi
 }
 
-DEFAULT_COMMIT_MESSAGE="Automatic update"
+DEFAULT_COMMIT_MESSAGE="chore: Automatic update with git-synchronize"
 DEFAULT_BRANCH="main"
 
 run_stash_stage() {

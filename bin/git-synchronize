@@ -78,11 +78,11 @@ print_warn() {
 print_run() {
     local _command="${1}"
     echo -e "${info_color:-}[RUN] ${success_color:-}$ ${_command}${reset_color:-}"
-    eval "timeout 600 ${_command}"
+    eval "${_command}"
 }
 
 print_version() {
-    echo "${SCRIPT_BASENAME}, 1.0.4"
+    echo "${SCRIPT_BASENAME}, 1.1.0"
 }
 
 get_config_value() {

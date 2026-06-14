@@ -48,11 +48,11 @@ handle_error() {
 trap handle_error ERR
 
 # colors
-export reset_color='\e[0m'
-export info_color='\e[1;34m'
-export warning_color='\e[1;33m'
-export error_color='\e[1;31m'
-export success_color='\e[1;32m'
+export reset_color='\x1B[0m'
+export info_color='\x1B[1;34m'
+export warning_color='\x1B[1;33m'
+export error_color='\x1B[1;31m'
+export success_color='\x1B[1;32m'
 
 print_info() {
     local _message="${1}"
@@ -82,7 +82,7 @@ print_run() {
 }
 
 print_version() {
-    echo "${SCRIPT_BASENAME}, 1.1.0"
+    echo "${SCRIPT_BASENAME}, 1.1.1"
 }
 
 get_config_value() {
